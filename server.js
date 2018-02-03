@@ -10,6 +10,23 @@ var express = require("express");
 // Middle-ware to test client requests
 var bodyParser = require('body-parser');
 
+// dependency for mongodb
+var mongojs = require("mongojs");
+
+// Database configuration
+var databaseUrl = process.env.MONGODB_URI || "localhost:27017/data";
+var collections = ["mailData", "userData"];
+
+// Hook mongojs configuration to the db variable
+var db = mongojs(databaseUrl, collections);
+db.on("error", function(error) {
+  console.log("Database Error:", error);
+});
+
+// Insert mock data to test to see if database is set up properly
+db.mailData.insert({"message":"test"});
+db.userData.insert({"password":"test"});
+
 // Initialize Express
 var app = express();
 
@@ -24,7 +41,6 @@ app.use(bodyParser.json())
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
-
 
 // Listen on port 3000
 app.listen(process.env.PORT || 3000, function() {
