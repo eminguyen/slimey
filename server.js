@@ -7,6 +7,9 @@ var logger = require("morgan");
 // express server
 var express = require("express");
 
+// set up http server for socket request
+var http = require('http');
+
 // Middle-ware to test client requests
 var bodyParser = require('body-parser');
 
@@ -42,7 +45,16 @@ app.use(bodyParser.json())
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 
-// Listen on port 3000
-app.listen(process.env.PORT || 3000, function() {
-  console.log("App running on port 3000!");
+// socket io configuration
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+// listening for sockets and routes
+server.listen(3000, function() {
+  console.log("App is running on port 3000!");
 });
+
+// // Listen on port 3000
+// app.listen(process.env.PORT || 3000, function() {
+//   console.log("App running on port 3000!");
+// });
