@@ -1,6 +1,3 @@
-// configure environment variables in .env
-require('dotenv').config()
-
 // Import routes and give the server access to them.
 var routes = require("./routes/api-routes.js");
 

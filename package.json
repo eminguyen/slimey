@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/gits-lit/HackUCI#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.0",
     "express": "^4.16.2",
