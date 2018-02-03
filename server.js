@@ -1,3 +1,6 @@
+// configure environment variables in .env
+require('dotenv').config()
+
 // logging client request (POST, GET, etc..)
 var logger = require("morgan");
 
