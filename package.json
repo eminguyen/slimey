@@ -1,0 +1,19 @@
+{
+  "name": "hackuci",
+  "version": "1.0.0",
+  "description": "we hack uci",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gits-lit/HackUCI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gits-lit/HackUCI/issues"
+  },
+  "homepage": "https://github.com/gits-lit/HackUCI#readme"
+}
