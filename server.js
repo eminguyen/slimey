@@ -50,7 +50,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 // listening for sockets and routes
-server.listen(3000, function() {
+server.listen(process.env.PORT || 3000, function() {
   console.log("App is running on port 3000!");
 });
 
