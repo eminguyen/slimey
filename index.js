@@ -1,5 +1,5 @@
 var buttons = [];
-var images = [];
+var exclamations = [];
 var statusBars = new Object();
 var ctx;
 var iconSize = 50;
@@ -7,6 +7,7 @@ var margin = 10;
 var importData = {
 	hunger: 0
 }
+var playerSlime;
 
 function init() {
 
@@ -68,13 +69,12 @@ function init() {
 	buttons.push(img3);
 
 	//create current slime
-	var playerSlime = new Image();
+	playerSlime = new Image();
 	playerSlime.name = "character";
 	playerSlime.location = {
 		x: canvas.width * (1/8),
 		y: canvas.height * (3/4)
 	};
-	playerSlime.size = {}
 	playerSlime.src = "./images/slime.png";
 	playerSlime.width = 200;
 	playerSlime.height = 150;
@@ -124,6 +124,7 @@ function init() {
 
 	playerSlime.onClick = function() {
 		console.log("Slime Clicked");
+		slimeClicked();
 	}
 
 	function onClick() {
@@ -174,9 +175,22 @@ var draw = function() {
 
 	})
 
-	//draw slimes
-	images.forEach(function(element) {
-		ctx.drawImage(element, element.location.x, element.location.y);
+	//draw exclamations
+	exclamations.forEach(function(element) {
+		ctx.globalAlpha = element.alpha;
+		ctx.drawImage(element, element.location.x, element.location.y, element.width, element.height);
+		ctx.globalAlpha = 1.0;
+
+		//reduces alpha of exclamation, making it fade out
+		element.alpha = element.alpha - 0.02;
+
+		//makes element float upwards
+		element.location.y = element.location.y - 1;
+
+		//removes element from array if no longer in use
+		if(element.alpha <= 0){
+			exclamations.splice(0, 1);
+		}
 	})
 
 	//draw bars
@@ -196,6 +210,20 @@ var fillBar = function(bar) {
 	ctx.fillText(Math.round(bar.cur), bar.x, bar.y + bar.height);
 }
 
+//creates exclamation on slime click
 var slimeClicked = function(){
+	var ouch = new Image();
+	ouch.name = "ouch";
+	ouch.location = {
+		x: playerSlime.location.x,
+		y: playerSlime.location.y
+	};
+	ouch.width = 100;
+	ouch.height = 100;
+	ouch.src = "./images/ic_warning_black_18px.svg";
+	ouch.alpha = 1.0;
+	exclamations.push(ouch);
+
+	console.log(exclamations);
 
 }
