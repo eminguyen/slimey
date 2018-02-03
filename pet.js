@@ -15,6 +15,7 @@ var serv = require('http').Server(app);
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/client/index.html');
 });
+
 app.use('/client', express.static(__dirname + '/client'));
 
 //Start server on port 2000
@@ -32,11 +33,11 @@ var Player = function(id) {
     id:id,
     hunger:0,
     hungerfloat:0,
-    health:0
-  }
-  self.starve = function() {
-    self.hungerfloat += 0.01;
-    self.hunger = Math.round(self.hungerfloat);
+    health:0,
+    starve : function() {
+      this.hungerfloat += 0.01;
+      this.hunger = Math.round(this.hungerfloat);
+    }
   }
   return self;
 }
@@ -52,7 +53,6 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('feed', function() {
     player.hungerfloat--;
-    player.hunger--;
   })
 
   socket.on('disconnect', function() {

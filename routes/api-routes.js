@@ -13,6 +13,13 @@ var express = require("express");
 // sets up a router to handle client requests
 var router = express.Router();
 
+// path to join files
+var path = require('path');
+
+router.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '..', '/client/index.html'));
+});
+
 router.get("/send/mail", function (req, res) {
   // set up email message object
   var msg = {
