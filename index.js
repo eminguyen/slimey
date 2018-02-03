@@ -1,5 +1,5 @@
 var buttons = [];
-var characters = [];
+var images = [];
 var statusBars = new Object();
 var ctx;
 var iconSize = 50;
@@ -26,6 +26,8 @@ function init() {
 		x: margin,
 		y: margin
 	};
+	img0.width = iconSize;
+	img0.height = iconSize;
 	img0.src = "./images/ic_favorite_black_24px.svg";
 	buttons.push(img0);
 
@@ -36,6 +38,8 @@ function init() {
 		x: margin,
 		y: canvas.height - margin - iconSize
 	};
+	img1.width = iconSize;
+	img1.height = iconSize;
 	img1.src = "./images/ic_restaurant_black_18px.svg";
 	buttons.push(img1);
 
@@ -45,7 +49,10 @@ function init() {
 	img2.location = {
 		x: canvas.width - margin - iconSize,
 		y: margin
-	};img2.src = "./images/ic_star_rate_black_18px.svg";
+	};
+	img2.width = iconSize;
+	img2.height = iconSize;
+	img2.src = "./images/ic_star_rate_black_18px.svg";
 	buttons.push(img2);
 
 	//bottom right image
@@ -54,8 +61,24 @@ function init() {
 	img3.location = {
 		x: canvas.width - margin - iconSize,
 		y: canvas.height - margin - iconSize
-	};img3.src = "./images/ic_warning_black_18px.svg";
+	};
+	img3.width = iconSize;
+	img3.height = iconSize;
+	img3.src = "./images/ic_warning_black_18px.svg";
 	buttons.push(img3);
+
+	//create current slime
+	var playerSlime = new Image();
+	playerSlime.name = "character";
+	playerSlime.location = {
+		x: canvas.width * (1/8),
+		y: canvas.height * (3/4)
+	};
+	playerSlime.size = {}
+	playerSlime.src = "./images/slime.png";
+	playerSlime.width = 200;
+	playerSlime.height = 150;
+	buttons.push(playerSlime);
 
 	//=================================
 
@@ -70,9 +93,9 @@ function init() {
 		//handle which button was pressed
 		buttons.forEach(function(element) {
 			if(e.clientX > element.location.x &&
-			   e.clientX < element.location.x + iconSize &&
+			   e.clientX < element.location.x + element.width &&
 			   e.clientY > element.location.y &&
-			   e.clientY < element.location.y + iconSize){
+			   e.clientY < element.location.y + element.height){
 
 				element.onClick();
 			}else{
@@ -97,6 +120,10 @@ function init() {
 
 	img3.onClick = function() {
 		console.log("Button 3 Clicked");
+	}
+
+	playerSlime.onClick = function() {
+		console.log("Slime Clicked");
 	}
 
 	function onClick() {
@@ -134,8 +161,8 @@ function init() {
 
 var x = 0;
 
-var draw = function() {
 
+var draw = function() {
 
 	//sets bg color
 	ctx.fillStyle = "#6ec6ff";
@@ -143,8 +170,13 @@ var draw = function() {
 
 	//draw buttons
 	buttons.forEach(function(element) {
-		ctx.drawImage(element, element.location.x, element.location.y, iconSize, iconSize);
+		ctx.drawImage(element, element.location.x, element.location.y, element.width, element.height);
 
+	})
+
+	//draw slimes
+	images.forEach(function(element) {
+		ctx.drawImage(element, element.location.x, element.location.y);
 	})
 
 	//draw bars
@@ -162,4 +194,8 @@ var fillBar = function(bar) {
 	ctx.fillStyle = "#000000";
 	ctx.font = "30px Arial";
 	ctx.fillText(Math.round(bar.cur), bar.x, bar.y + bar.height);
+}
+
+var slimeClicked = function(){
+
 }
