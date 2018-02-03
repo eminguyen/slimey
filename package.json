@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/gits-lit/HackUCI/issues"
   },
-  "homepage": "https://github.com/gits-lit/HackUCI#readme"
+  "homepage": "https://github.com/gits-lit/HackUCI#readme",
+  "dependencies": {
+    "require": "^2.4.20"
+  }
 }
