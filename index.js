@@ -1,3 +1,5 @@
+var buttons = [];
+
 function init() {
 
 	var iconSize = 50;
@@ -15,10 +17,8 @@ function init() {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	//DRAWS ICONS====================
-	//stores images in array to check for clicks
-	var images = [];
 
-	//top left images
+	//top left buttons
 	var img0 = new Image();
 	img0.name = "heart";
 	img0.location = {
@@ -29,7 +29,7 @@ function init() {
 	img0.onload = function() {
 		ctx.drawImage(img0, img0.location.x, img0.location.y, iconSize, iconSize);
 	}
-	images.push(img0);
+	buttons.push(img0);
 
 	//bottm left image
 	var img1 = new Image();
@@ -42,7 +42,7 @@ function init() {
 	img1.onload = function() {
 		ctx.drawImage(img1, img1.location.x, img1.location.y, iconSize, iconSize);
 	}
-	images.push(img1);
+	buttons.push(img1);
 
 	//top right image
 	var img2 = new Image();
@@ -54,7 +54,7 @@ function init() {
 	img2.onload = function() {
 		ctx.drawImage(img2, img2.location.x, img2.location.y, iconSize, iconSize);
 	}
-	images.push(img2);
+	buttons.push(img2);
 
 	//bottom right image
 	var img3 = new Image();
@@ -66,7 +66,7 @@ function init() {
 	img3.onload = function() {
 		ctx.drawImage(img3, img3.location.x, img3.location.y, iconSize, iconSize);
 	}
-	images.push(img3);
+	buttons.push(img3);
 
 	//=================================
 
@@ -79,7 +79,7 @@ function init() {
 		console.log(y);
 
 		//handle which button was pressed
-		images.forEach(function(element) {
+		buttons.forEach(function(element) {
 			if(e.clientX > element.location.x &&
 			   e.clientX < element.location.x + iconSize &&
 			   e.clientY > element.location.y &&
