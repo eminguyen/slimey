@@ -1,20 +1,21 @@
 var buttons = [];
+var characters = [];
+var statusBars = new Object();
+var ctx;
+var iconSize = 50;
+var margin = 10;
+var importData = {
+	hunger: 0
+}
 
 function init() {
 
-	var iconSize = 50;
-	var margin = 10;
-	
-	var canvas = document.getElementById("canvas");
-	var ctx = canvas.getContext("2d");
-	
+	canvas = document.getElementById("canvas");
+	ctx = canvas.getContext("2d");
+
 	//sets window to fullscreen
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
-
-	//sets bg color
-	ctx.fillStyle = "#6ec6ff";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	//DRAWS ICONS====================
 
@@ -22,50 +23,38 @@ function init() {
 	var img0 = new Image();
 	img0.name = "heart";
 	img0.location = {
-		x: margin, 
+		x: margin,
 		y: margin
 	};
 	img0.src = "./images/ic_favorite_black_24px.svg";
-	img0.onload = function() {
-		ctx.drawImage(img0, img0.location.x, img0.location.y, iconSize, iconSize);
-	}
 	buttons.push(img0);
 
 	//bottm left image
 	var img1 = new Image();
 	img1.name = "food";
 	img1.location = {
-		x: margin, 
+		x: margin,
 		y: canvas.height - margin - iconSize
 	};
 	img1.src = "./images/ic_restaurant_black_18px.svg";
-	img1.onload = function() {
-		ctx.drawImage(img1, img1.location.x, img1.location.y, iconSize, iconSize);
-	}
 	buttons.push(img1);
 
 	//top right image
 	var img2 = new Image();
 	img2.name = "star";
 	img2.location = {
-		x: canvas.width - margin - iconSize, 
+		x: canvas.width - margin - iconSize,
 		y: margin
 	};img2.src = "./images/ic_star_rate_black_18px.svg";
-	img2.onload = function() {
-		ctx.drawImage(img2, img2.location.x, img2.location.y, iconSize, iconSize);
-	}
 	buttons.push(img2);
 
 	//bottom right image
 	var img3 = new Image();
 	img3.name = "warning";
 	img3.location = {
-		x: canvas.width - margin - iconSize, 
+		x: canvas.width - margin - iconSize,
 		y: canvas.height - margin - iconSize
 	};img3.src = "./images/ic_warning_black_18px.svg";
-	img3.onload = function() {
-		ctx.drawImage(img3, img3.location.x, img3.location.y, iconSize, iconSize);
-	}
 	buttons.push(img3);
 
 	//=================================
@@ -90,7 +79,7 @@ function init() {
 				onClick();
 			}
 		});
-	})  
+	})
 
 
 	//things that happen on click
@@ -113,8 +102,64 @@ function init() {
 	function onClick() {
 		//console.log("No Button Clicked");
 	}
+
+	//creates bars
+	statusBars.hungerBar = {
+		max: 100,
+		cur: 50,
+		width: 500,
+		height: 50,
+		x: 100,
+		y: 100,
+		fillColor: "#FFFFFF",
+		emptyColor: "#000000"
+
+	}
+	statusBars.healthBar = {
+		max: 100,
+		cur: 50,
+		width: 500,
+		height: 50,
+		x: statusBars.hungerBar.x,
+		y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
+		fillColor: "#FFFFFF",
+		emptyColor: "#000000"
+	}
+
+	//starts animation
+	setInterval(function(){
+		draw();
+	}, 10);
 }
+
+var x = 0;
 
 var draw = function() {
 
+
+	//sets bg color
+	ctx.fillStyle = "#6ec6ff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	//draw buttons
+	buttons.forEach(function(element) {
+		ctx.drawImage(element, element.location.x, element.location.y, iconSize, iconSize);
+
+	})
+
+	//draw bars
+	fillBar(statusBars.hungerBar);
+	fillBar(statusBars.healthBar);
+
+	statusBars.hungerBar.cur = statusBars.hungerBar.cur + 0.2;
+}
+
+var fillBar = function(bar) {
+	ctx.fillStyle = bar.emptyColor;
+	ctx.fillRect(bar.x, bar.y, bar.width, bar.height);
+	ctx.fillStyle = bar.fillColor;
+	ctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
+	ctx.fillStyle = "#000000";
+	ctx.font = "30px Arial";
+	ctx.fillText(Math.round(bar.cur), bar.x, bar.y + bar.height);
 }
