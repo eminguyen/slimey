@@ -1,3 +1,8 @@
+body{
+  padding-top: 150px;
+  padding-left: 50px;
+}
+
 #slime-name {
   color:green;
   font-weight: bold;
@@ -5,4 +10,12 @@
 
 #title {
   text-shadow: 2px 2px rgb(35, 255, 35);
+}
+
+#stats-text{
+  text-shadow: 2px 2px rgb(233, 67, 67);
+}
+
+#controls-text{
+  text-shadow: 2px 2px rgb(167, 72, 245);
 }

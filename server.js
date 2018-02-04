@@ -1,5 +1,5 @@
 // Import routes and give the server access to them.
-var routes = require("./routes/api-routes.js");
+var sendGridRoutes = require("./routes/api-routes.js");
 
 // logging client request (POST, GET, etc..)
 var logger = require("morgan");
@@ -39,10 +39,10 @@ var app = express();
 app.use(express.static("public"));
 
 // Use imported routes
-app.use(routes)
+app.use(sendGridRoutes);
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -96,13 +96,26 @@ io.on('connection', function (socket) {
     newPlayer.attack(PLAYER_LIST[ran_player]);
     socket.emit('stats', newPlayer);
   });
+  
+  socket.on('level', function() {
+    newPlayer.level();
+    socket.emit('stats', newPlayer);
+  });
+
+  // send mail to client
+  socket.on('send mail', function() {
+    socket.emit('send mail', newPlayer);
+  });
 
 
   // slime gets hungry every 3 seconds
   setInterval(function(){
     newPlayer.starve();
+    // if(newPlayer.hunger === 50) {
+    //   socket.emit('send mail')
+    // }
     socket.emit('stats', newPlayer);
-  },3000);
+  },1000);
 
   // tells the server when the slime is rendered
   socket.on('render', function(data) {
