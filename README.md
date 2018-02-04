@@ -3,20 +3,20 @@ A virtual pet developed for HackUCI.
 
 Developed in 36 hours using HTML, CSS, JS, NodeJS, MongoDB and various libraries.
 
-# Table of Contents
+## Table of Contents
 1. [Team Members](https://github.com/gits-lit/slimey#team-members)
 2. [Introduction](https://github.com/gits-lit/slimey#meet-slimey)
 3. [Explanation](https://github.com/gits-lit/slimey#how-it-works)
 3. [Demonstration](https://github.com/gits-lit/slimey#our-website)
 4. [License](https://github.com/gits-lit/slimey#license)
 
-# Team Members
+## Team Members
 - [Clark Phan](https://github.com/ClarkPhan)
 - [Anh Ngo](https://github.com/anhdngo)
 - [Alvin Nguyen](https://github.com/realalvinnerds)
 - [Antony Nguyen](https://github.com/eminguyen)
 
-# Meet Slimey!
+## Meet Slimey!
 ![slime](https://user-images.githubusercontent.com/32719891/35777241-45572366-095f-11e8-9a65-3d2905b99130.gif)
 
 This is Slimey! We created him at HackUCI.
@@ -29,14 +29,14 @@ We also used SendGrid's API to add the ability to send an email to yourself of t
 While we did get the base of a battle system implemented, we did not add it to the final application before
 the deadline sadly. You can see that progress in our pet-test.js file.
 
-# How It Works
+## How It Works
 
-# Our Website
+## Our Website
 ![slimey_edit_0](https://user-images.githubusercontent.com/32719891/35777187-7023cece-095e-11e8-92ac-2ea7f4809581.gif)
 
 - https://project-slimey.herokuapp.com/
 
-# License
+## License
 Copyright 2018 Anh Ngo, Alvin Nguyen, Antony Nguyen, Clark Phan
 
 Licensed under the Apache License, Version 2.0 (the "License");
