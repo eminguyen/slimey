@@ -27,7 +27,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/render', function(req, res){
-  res.sendFile(path.join(__dirname, '..', '/public/images/slime.png'));
+  res.sendFile(path.join(__dirname, '..', '/public/img/slime.png'));
 })
 
 router.post("/send/mail", function (req, res) {
