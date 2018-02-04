@@ -9,7 +9,8 @@
 
   <link rel="stylesheet" href="css/style.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    crossorigin="anonymous">
+  crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <title> Slimey</title>
 </head>
@@ -18,22 +19,27 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h1 id="title"> Slimey </h1>
+        <h1 id="title"> Pet </h1>
         <img src="img/slime.gif" />
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       </div>
       <div class="col-md-4">
-          <h1 id="stats-text">Stats</h1>
-          <h2><span id="slime-name"></span></h2>
-            <canvas id="bars"></canvas>
-            <h2>level: <span id="slime-level"></span></h2>
-            <h2>attack: <span id="slime-attack"></span></h2>
-            <h2>defense: <span id="slime-defense"></span></h2>
-        </div>
+        <h1 id="title">Stats</h1>
+        <h2> <span id="slime-name"></span></h2>
+        <canvas id="bars"></canvas>
+        <h2>level: <span id="slime-level"></span></h2>
+        <h2>attack: <span id="slime-attack"></span></h2>
+        <h2>defense: <span id="slime-defense"></span></h2>
+      </div>
       <div class="col-md-4">
-        <h1 id="controls-text">Controls</h1>
-        <button id="feed-pet-btn" class="btn btn-primary">Feed me!</button>
-        <button id="send-stats-btn" class="btn btn-success">Send pet stats!</button>
+        <h1 id="title">Controls</h1>
+        <button id="feed-pet-btn" class="btn btn-info">Feed me!</button>
+        <button id="send-stats-btn" class="btn btn-info">Send pet stats!</button>
+        <h1 id="title"> Made By </h1>
+        <h2> Clark Phan </h2>
+        <h2> Anh Ngo </h2>
+        <h2> Alvin Nguyen </h2>
+        <h2> Antony Nguyen </h2>
       </div>
     </div>
   </div>
@@ -43,7 +49,7 @@
   <script>
 
     // Connect to our local host port
-    var socket = io.connect('http://localhost:2000');
+    var socket = io.connect('http://localhost:3000');
     // when generating slime signal is received
     socket.on('generate slime', function (slime) {
       console.log(slime);
@@ -115,8 +121,8 @@
   		height: 50,
   		x: 0,
   		y: 0,
-  		fillColor: "#FF0000",
-  		emptyColor: "#000000"
+  		fillColor: "#00bfff",
+  		emptyColor: "#e6f9ff"
   	}
   	statusBars.healthBar = {
       name:"Health",
@@ -126,8 +132,8 @@
   		height: 50,
   		x: statusBars.hungerBar.x,
   		y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
-  		fillColor: "#FF0000",
-  		emptyColor: "#000000"
+  		fillColor: "#00bfff",
+  		emptyColor: "#e6f9ff"
   	}
     //starts animation
     setInterval(function(){
@@ -150,9 +156,9 @@
   	barctx.fillRect(bar.x, bar.y, bar.width, bar.height);
   	barctx.fillStyle = bar.fillColor;
   	barctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
-  	barctx.fillStyle = "#FFFFFF";
-  	barctx.font = "30px Arial";
-  	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x, bar.y + bar.height);
+  	barctx.fillStyle = "#232323";
+  	barctx.font = "25px Indie Flower";
+  	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x + 10, bar.y + 10 + bar.height/2);
   }
   </script>
 

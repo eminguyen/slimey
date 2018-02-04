@@ -3,19 +3,22 @@ body{
   padding-left: 50px;
 }
 
+html body {
+  font-family: 'Indie Flower', cursive;
+  color: #515151;
+}
+
 #slime-name {
-  color:green;
+  color:#00bfff;
   font-weight: bold;
+  font-family: 'Indie Flower', cursive;;
 }
 
 #title {
-  text-shadow: 2px 2px rgb(35, 255, 35);
+  font-family: 'Indie Flower', cursive;
+  font-weight: 700;
 }
 
-#stats-text{
-  text-shadow: 2px 2px rgb(233, 67, 67);
-}
-
-#controls-text{
-  text-shadow: 2px 2px rgb(167, 72, 245);
+.btn{
+  font-family: 'Indie Flower', cursive;
 }
