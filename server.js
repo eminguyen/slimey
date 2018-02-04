@@ -86,6 +86,7 @@ io.on('connection', function (socket) {
     socket.emit('stats', newPlayer);
   });
 
+  // players slime attacks other slime
   socket.on('attack', function() {
     while(true){
       ran_player = Math.floor(Math.random() * PLAYER_LIST.length);
@@ -96,9 +97,10 @@ io.on('connection', function (socket) {
     newPlayer.attack(PLAYER_LIST[ran_player]);
     socket.emit('stats', newPlayer);
   });
-  
-  socket.on('level', function() {
-    newPlayer.level();
+
+  // heals slime
+  socket.on('heal', function() {
+    newPlayer.heal()
     socket.emit('stats', newPlayer);
   });
 
