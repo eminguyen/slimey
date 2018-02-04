@@ -78,7 +78,7 @@
       $("#slime-health").text(slime.health);
     });
 
-    // when the sever request for the slime's stats
+    // send mail functionality
     socket.on('send mail', function (slime) {
       var msg = {
         to: "clarkphan24@gmail.com",
