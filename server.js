@@ -105,7 +105,7 @@ io.on('connection', function (socket) {
   });
 
   // send mail to client
-  socket.on('send mail', function() {
+  socket.on('send mail', function(data) {
     socket.emit('send mail', newPlayer);
   });
 
