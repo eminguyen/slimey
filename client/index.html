@@ -25,6 +25,9 @@
           <h1 id="stats-text">Stats</h1>
           <h2><span id="slime-name"></span></h2>
             <canvas id="bars"></canvas>
+            <h2>level: <span id="slime-level"></span></h2>
+            <h2>attack: <span id="slime-attack"></span></h2>
+            <h2>defense: <span id="slime-defense"></span></h2>
         </div>
       <div class="col-md-4">
         <h1 id="controls-text">Controls</h1>
@@ -54,7 +57,11 @@
       // set slime stats on generation
       $("#slime-name").text("Slimey");
       $("#slime-hunger").text(slime.hunger);
+      $("#slime-current-health").text(slime.current_health);
       $("#slime-health").text(slime.health);
+      $("#slime-level").text(slime.level);
+      $("#slime-attack").text(slime.ap);
+      $("#slime-defense").text(slime.dp);
 
       //create current slime
       var playerSlime = new Image();
@@ -75,13 +82,17 @@
       socket.emit('render', { message: 'slime rendered' });
     });
 
-    // when the sever request for the slime's stats
-    socket.on('stats', function (slime) {
-      $("#slime-name").text("Slimey");
-      $("#slime-hunger").text(slime.hunger);
-      $("#slime-health").text(slime.health);
 
-    });
+      // when the sever request for the slime's stats
+      socket.on('stats', function (slime) {
+        $("#slime-name").text("Slimey");
+        $("#slime-hunger").text(slime.hunger);
+        $("#slime-current-health").text(slime.current_health);
+        $("#slime-health").text(slime.health);
+        $("#slime-level").text(slime.level);
+        $("#slime-attack").text(slime.ap);
+        $("#slime-defense").text(slime.dp);
+      });
 
     // send mail functionality
     socket.on('send mail', function (slime) {
