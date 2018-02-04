@@ -11,7 +11,7 @@ var playerSlime;
 
 function init() {
 
-	canvas = document.getElementById("canvas");
+	canvas = document.getElementById("bars");
 	ctx = canvas.getContext("2d");
 
 	//sets window to fullscreen

@@ -13,7 +13,7 @@
   <title>Project: Slimey</title>
 </head>
 
-<body>
+<body onload="initBars()">
   <div class="container">
     <div class="row">
       <div class="col-md-4">
@@ -33,6 +33,11 @@
       </div>
     </div>
   </div>
+
+  <canvas id="bars" width="350" height="350"></canvas>
+
+  <!--         -->
+
   <script>
 
     var canvas = document.getElementById("canvas");
@@ -84,6 +89,112 @@
       });
     })
   </script>
+
+  <!-- BARS SCRIPTS -->
+  <script>
+  var statusBars = new Object();
+  var exclamations = [];
+  var barctx;
+  var barcanvas;
+
+  function initBars(){
+    console.log("initting bars");
+
+    barcanvas = document.getElementById("bars");
+    barctx = barcanvas.getContext("2d");
+
+    //sets window size
+    barcanvas.width = 1000;
+    barcanvas.height = 500;
+
+    //creates bars
+  	statusBars.hungerBar = {
+  		max: 100,
+  		cur: 50,
+  		width: 500,
+  		height: 50,
+  		x: 100,
+  		y: 100,
+  		fillColor: "#FFFFFF",
+  		emptyColor: "#000000"
+  	}
+  	statusBars.healthBar = {
+  		max: 100,
+  		cur: 50,
+  		width: 500,
+  		height: 50,
+  		x: statusBars.hungerBar.x,
+  		y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
+  		fillColor: "#FFFFFF",
+  		emptyColor: "#000000"
+  	}
+
+    //starts animation
+    setInterval(function(){
+      draw();
+    }, 10);
+  }
+
+  var draw = function() {
+
+  	//sets bg color
+  	barctx.fillStyle = "#6ec6ff";
+  	barctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  	//draw exclamations
+  	exclamations.forEach(function(element) {
+  		barctx.globalAlpha = element.alpha;
+  		barctx.drawImage(element, element.location.x, element.location.y, element.width, element.height);
+  		barctx.globalAlpha = 1.0;
+
+  		//reduces alpha of exclamation, making it fade out
+  		element.alpha = element.alpha - 0.02;
+
+  		//makes element float upwards
+  		element.location.y = element.location.y - 1;
+
+  		//removes element from array if no longer in use
+  		if(element.alpha <= 0){
+  			exclamations.splice(0, 1);
+  		}
+  	})
+
+  	//draw bars
+  	fillBar(statusBars.hungerBar);
+  	fillBar(statusBars.healthBar);
+
+  	statusBars.hungerBar.cur = statusBars.hungerBar.cur + 0.2;
+  }
+
+  var fillBar = function(bar) {
+  	barctx.fillStyle = bar.emptyColor;
+  	barctx.fillRect(bar.x, bar.y, bar.width, bar.height);
+  	barctx.fillStyle = bar.fillColor;
+  	barctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
+  	barctx.fillStyle = "#000000";
+  	barctx.font = "30px Arial";
+  	barctx.fillText(Math.round(bar.cur), bar.x, bar.y + bar.height);
+  }
+
+  //creates exclamation on slime click
+  var slimeClicked = function(){
+  	var ouch = new Image();
+  	ouch.name = "ouch";
+  	ouch.location = {
+  		x: playerSlime.location.x,
+  		y: playerSlime.location.y
+  	};
+  	ouch.width = 100;
+  	ouch.height = 100;
+  	ouch.src = "../images/ic_warning_black_18px.svg";
+  	ouch.alpha = 1.0;
+  	exclamations.push(ouch);
+
+  	console.log(exclamations);
+
+  }
+  </script>
+
 </body>
 
 </html>
