@@ -33,12 +33,9 @@
       <div class="col-md-4">
         <h1 id="controls-text">Controls</h1>
         <button id="feed-pet-btn" class="btn btn-primary">Feed me!</button>
-<<<<<<< HEAD
         <button id="attack-pet-btn" class="btn btn-primary">Attack other slime!</button>
-        <button id="attack-pet-btn" class="btn btn-primary">Heal me!!</button>
-=======
+        <button id="heal-pet-btn" class="btn btn-primary">Heal me!!</button>
         <button id="send-stats-btn" class="btn btn-success">Send pet stats!</button>
->>>>>>> master
       </div>
     </div>
   </div>
@@ -71,7 +68,7 @@
         x: 0,
         y: 0
       };
-      console.log()
+      console.log();
       playerSlime.width = canvas.width;
       playerSlime.height = canvas.height;
       playerSlime.onload = function () {
@@ -120,6 +117,12 @@
     $(document).ready(function () {
       $("#feed-pet-btn").on("click", function () {
         socket.emit('feed');
+      });
+      $("#attack-pet-btn").on("click", function () {
+        socket.emit('attack');
+      });
+      $("#heal-pet-btn").on("click", function () {
+        socket.emit('heal');
       });
       $("#send-stats-btn").on("click", function () {
         socket.emit('send mail');
