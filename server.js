@@ -19,6 +19,9 @@ var mongojs = require("mongojs");
 // import player object
 var player = require("./pet.js");
 
+// path to join files
+var path = require('path');
+
 // Database configuration
 var databaseUrl = process.env.MONGODB_URI || "localhost:27017/data";
 var collections = ["mailData", "userData"];
@@ -71,11 +74,12 @@ io.on('connection', function (socket) {
 
   console.log(PLAYER_LIST);
   // emit news to server on connection
-  socket.emit('news', { hello: 'world' });
+  socket.emit('news', {message: 'hello'});
 
   // listen for events
-  socket.on('my other event', function (data) {
+  socket.on('render', function (data) {
     console.log(data);
+    
   });
 });
 
