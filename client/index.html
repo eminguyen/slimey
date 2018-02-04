@@ -22,14 +22,15 @@
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       </div>
       <div class="col-md-4">
-          <h1>Stats</h1>
+          <h1 id="stats-text">Stats</h1>
           <h2><span id="slime-name"></span></h2>
           <h2>health: <span id="slime-health"></span></h2>
           <h2>hunger: <span id="slime-hunger"></span></h2>
         </div>
       <div class="col-md-4">
-        <h1>Controls</h1>
+        <h1 id="controls-text">Controls</h1>
         <button id="feed-pet-btn" class="btn btn-primary">Feed me!</button>
+        <button id="send-stats-btn" class="btn btn-success">Send pet stats!</button>
       </div>
     </div>
   </div>
@@ -82,10 +83,35 @@
       $("#slime-health").text(slime.health);
     });
 
+    // send mail functionality
+    socket.on('send mail', function (slime) {
+      var msg = {
+        to: "clarkphan24@gmail.com",
+        from: "slimey@project-slimey.io",
+        subject: "Your Slime Stats!",
+        text: `Your slime Slimey's stats: 
+        Health: ${slime.health} 
+        Hunger: ${slime.hunger}`
+      }
+
+      console.log(JSON.stringify(msg));
+
+      $.ajax({
+        method: "POST",
+        url: "/send/mail",
+        data: JSON.stringify(msg),
+        contentType: "application/json"
+      });
+      console.log("mail sent!");
+    });
+
     // feed the slime when feed button is clicked
     $(document).ready(function () {
       $("#feed-pet-btn").on("click", function () {
         socket.emit('feed');
+      });
+      $("#send-stats-btn").on("click", function () {
+        socket.emit('send mail');
       });
     })
   </script>
