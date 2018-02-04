@@ -81,16 +81,17 @@
       $("#slime-name").text("Slimey");
       $("#slime-hunger").text(slime.hunger);
       $("#slime-health").text(slime.health);
+
     });
 
     // send mail functionality
     socket.on('send mail', function (slime) {
       var msg = {
-        to: "clarkphan24@gmail.com",
+        to: "on.is.my.name@gmail.com",
         from: "slimey@project-slimey.io",
         subject: "Your Slime Stats!",
-        text: `Your slime Slimey's stats: 
-        Health: ${slime.health} 
+        text: `Your slime Slimey's stats:
+        Health: ${slime.health}
         Hunger: ${slime.hunger}`
       }
 
@@ -114,10 +115,10 @@
         socket.emit('send mail');
       });
     })
-  </script>
+
 
   <!-- BARS SCRIPTS -->
-  <script>
+
   var statusBars = new Object();
   var exclamations = [];
   var barctx;
@@ -139,9 +140,9 @@
   		cur: 50,
   		width: 500,
   		height: 50,
-  		x: 100,
-  		y: 100,
-  		fillColor: "#FFFFFF",
+  		x: 0,
+  		y: 0,
+  		fillColor: "#FF0000",
   		emptyColor: "#000000"
   	}
   	statusBars.healthBar = {
@@ -151,7 +152,7 @@
   		height: 50,
   		x: statusBars.hungerBar.x,
   		y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
-  		fillColor: "#FFFFFF",
+  		fillColor: "#FF0000",
   		emptyColor: "#000000"
   	}
 
@@ -163,33 +164,18 @@
 
   var draw = function() {
 
-  	//sets bg color
-  	barctx.fillStyle = "#6ec6ff";
-  	barctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  	//draw exclamations
-  	exclamations.forEach(function(element) {
-  		barctx.globalAlpha = element.alpha;
-  		barctx.drawImage(element, element.location.x, element.location.y, element.width, element.height);
-  		barctx.globalAlpha = 1.0;
-
-  		//reduces alpha of exclamation, making it fade out
-  		element.alpha = element.alpha - 0.02;
-
-  		//makes element float upwards
-  		element.location.y = element.location.y - 1;
-
-  		//removes element from array if no longer in use
-  		if(element.alpha <= 0){
-  			exclamations.splice(0, 1);
-  		}
-  	})
 
   	//draw bars
   	fillBar(statusBars.hungerBar);
   	fillBar(statusBars.healthBar);
+    socket.on('stats', function (slime) {
+      //update values
+      statusBars.healthBar.cur = slime.health;
+      statusBars.hungerBar.cur = slime.hunger;
+      statusBars.hungerBar.max = slime.maxHunger;
+    });
 
-  	statusBars.hungerBar.cur = statusBars.hungerBar.cur + 0.2;
   }
 
   var fillBar = function(bar) {
@@ -202,23 +188,6 @@
   	barctx.fillText(Math.round(bar.cur), bar.x, bar.y + bar.height);
   }
 
-  //creates exclamation on slime click
-  var slimeClicked = function(){
-  	var ouch = new Image();
-  	ouch.name = "ouch";
-  	ouch.location = {
-  		x: playerSlime.location.x,
-  		y: playerSlime.location.y
-  	};
-  	ouch.width = 100;
-  	ouch.height = 100;
-  	ouch.src = "../images/ic_warning_black_18px.svg";
-  	ouch.alpha = 1.0;
-  	exclamations.push(ouch);
-
-  	console.log(exclamations);
-
-  }
   </script>
 
 </body>
