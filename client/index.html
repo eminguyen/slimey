@@ -65,7 +65,7 @@
       playerSlime.onload = function () {
         ctx.drawImage(playerSlime, playerSlime.location.x, playerSlime.location.y, playerSlime.width, playerSlime.height);
       }
-      playerSlime.src = "/images/slime.PNG";
+      playerSlime.src = "/assets/img/slime.PNG";
 
       // send req to server
       socket.emit('render', { message: 'slime rendered' });
