@@ -69,7 +69,7 @@ io.on('connection', function (socket) {
 
   // create new player
   var newPlayer = new slime(PLAYER_ID);
-  
+
   // push player into player list
   PLAYER_LIST.push(newPlayer);
 
@@ -82,11 +82,25 @@ io.on('connection', function (socket) {
   // when the server recieves a request to feed the slime
   socket.on('feed', function() {
     newPlayer.feed();
+    newPlayer.checkLevel();
     socket.emit('stats', newPlayer);
   });
-  
-  socket.on('level', function() {
-    newPlayer.level();
+
+  // players slime attacks other slime
+  socket.on('attack', function() {
+    while(true){
+      ran_player = Math.floor(Math.random() * PLAYER_LIST.length);
+      if (ran_player != PLAYER_ID){
+        break;
+      }
+    }
+    newPlayer.attack(PLAYER_LIST[ran_player]);
+    socket.emit('stats', newPlayer);
+  });
+
+  // heals slime
+  socket.on('heal', function() {
+    newPlayer.heal()
     socket.emit('stats', newPlayer);
   });
 
@@ -95,7 +109,8 @@ io.on('connection', function (socket) {
     socket.emit('send mail', newPlayer);
   });
 
-  // slime gets hungry every 3 second
+
+  // slime gets hungry every 3 seconds
   setInterval(function(){
     newPlayer.starve();
     // if(newPlayer.hunger === 50) {

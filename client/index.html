@@ -24,9 +24,7 @@
       <div class="col-md-4">
           <h1 id="stats-text">Stats</h1>
           <h2><span id="slime-name"></span></h2>
-          <!--<h2>health: <span id="slime-health"></span></h2>
-          <h2>hunger: <span id="slime-hunger"></span></h2>-->
-          <canvas id="bars"></canvas>
+            <canvas id="bars"></canvas>
         </div>
       <div class="col-md-4">
         <h1 id="controls-text">Controls</h1>
@@ -188,7 +186,7 @@
   	barctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
   	barctx.fillStyle = "#FFFFFF";
   	barctx.font = "30px Arial";
-  	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x, bar.y + bar.height - 5);
+  	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x, bar.y + bar.height);
   }
 
   </script>
