@@ -70,7 +70,7 @@
       playerSlime.onload = function () {
         ctx.drawImage(playerSlime, playerSlime.location.x, playerSlime.location.y, playerSlime.width, playerSlime.height);
       }
-      playerSlime.src = "/images/slime.png";
+      playerSlime.src = "/images/slime.PNG";
 
       // send req to server
       socket.emit('render', { message: 'slime rendered' });
@@ -173,7 +173,7 @@
       //update values
       statusBars.healthBar.cur = slime.health;
       statusBars.hungerBar.cur = slime.hunger;
-      statusBars.hungerBar.max = slime.maxHunger;
+      statusBars.hungerBar.max = 1000;
     });
 
   }
