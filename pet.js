@@ -15,14 +15,7 @@ function newPlayer (id) {
 };
 
 module.exports = newPlayer;
-// //When io is called, a new socket will be made with a random ID
-// var io = require('socket.io') (serv, {});
-// io.sockets.on('connection', function(socket) {
-//   socket.id = Math.random();
-//   SOCKET_LIST[socket.id] = socket;
 
-//   var player = Player(socket.id);
-//   PLAYER_LIST[socket.id] = player;
 
 //   socket.on('feed', function() {
 //     player.hungerfloat--;
