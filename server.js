@@ -36,7 +36,7 @@ db.on("error", function(error) {
 var app = express();
 
 // Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Use imported routes
 app.use(sendGridRoutes);
