@@ -96,8 +96,11 @@
         from: "slimey@project-slimey.io",
         subject: "Your Slime Stats!",
         text: `Your slime Slimey's stats:
+        Level: ${slime.level}
         Health: ${slime.health}
-        Hunger: ${slime.hunger}`
+        Hunger: ${slime.hunger}
+        Attack: ${slime.ap}
+        Defense: ${slime.dp}`
       }
       console.log(JSON.stringify(msg));
       $.ajax({
