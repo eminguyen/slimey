@@ -9,7 +9,7 @@
 
   <link rel="stylesheet" href="css/style.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-  crossorigin="anonymous">
+    crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <title> Slimey</title>
@@ -25,16 +25,33 @@
       </div>
       <div class="col-md-4">
         <h1 id="title">Stats</h1>
-        <h2> <span id="slime-name"></span></h2>
+        <h2>
+          <span id="slime-name"></span>
+        </h2>
         <canvas id="bars"></canvas>
-        <h2>level: <span id="slime-level"></span></h2>
-        <h2>attack: <span id="slime-attack"></span></h2>
-        <h2>defense: <span id="slime-defense"></span></h2>
+        <h2>level:
+          <span id="slime-level"></span>
+        </h2>
+        <h2>attack:
+          <span id="slime-attack"></span>
+        </h2>
+        <h2>defense:
+          <span id="slime-defense"></span>
+        </h2>
       </div>
       <div class="col-md-4">
         <h1 id="title">Controls</h1>
         <button id="feed-pet-btn" class="btn btn-info">Feed me!</button>
-        <button id="send-stats-btn" class="btn btn-info">Send pet stats!</button>
+        <form id="email-form">
+            <div class="form-row">
+              <div class="col-6">
+                <input type="email" class="form-control" id="email" placeholder="slimey@project-slimey.io">
+              </div>
+              <div class="col-6">
+                <input type="submit" value="Send pet stats!" id="send-stats-btn" class="btn btn-info">
+              </div>
+            </div>
+          </form>
         <h1 id="title"> Made By </h1>
         <h2> Clark Phan </h2>
         <h2> Anh Ngo </h2>
@@ -62,20 +79,20 @@
       $("#slime-attack").text(slime.ap);
       $("#slime-defense").text(slime.dp);
     });
-      // when the sever request for the slime's stats
-      socket.on('stats', function (slime) {
-        $("#slime-name").text("Slimey");
-        $("#slime-hunger").text(slime.hunger);
-        $("#slime-current-health").text(slime.current_health);
-        $("#slime-health").text(slime.health);
-        $("#slime-level").text(slime.level);
-        $("#slime-attack").text(slime.ap);
-        $("#slime-defense").text(slime.dp);
-      });
+    // when the sever request for the slime's stats
+    socket.on('stats', function (slime) {
+      $("#slime-name").text("Slimey");
+      $("#slime-hunger").text(slime.hunger);
+      $("#slime-current-health").text(slime.current_health);
+      $("#slime-health").text(slime.health);
+      $("#slime-level").text(slime.level);
+      $("#slime-attack").text(slime.ap);
+      $("#slime-defense").text(slime.dp);
+    });
     // send mail functionality
     socket.on('send mail', function (slime) {
       var msg = {
-        to: "on.is.my.name@gmail.com",
+        to: $("#email").val(),
         from: "slimey@project-slimey.io",
         subject: "Your Slime Stats!",
         text: `Your slime Slimey's stats:
@@ -96,70 +113,82 @@
       $("#feed-pet-btn").on("click", function () {
         socket.emit('feed');
       });
-      $("#send-stats-btn").on("click", function () {
+      $("#email-form").submit(function (event) {
+        event.preventDefault();
+
+        // input email
+        var email = $("#email").val();
+        
+        // prevent form from being empty
+        if (email === "") {
+          return;
+        }
+        
+        alert( "Email successfuly sent to " + email);
+        console.log(email);
         socket.emit('send mail');
       });
     })
-  <!-- BARS SCRIPTS -->
-  var statusBars = new Object();
-  var exclamations = [];
-  var barctx;
-  var barcanvas;
-  function initBars(){
-    console.log("initting bars");
-    barcanvas = document.getElementById("bars");
-    barctx = barcanvas.getContext("2d");
-    //sets window size
-    barcanvas.width = 300;
-    barcanvas.height = 120;
-    //creates bars
-  	statusBars.hungerBar = {
-      name:"Hunger",
-  		max: 100,
-  		cur: 50,
-  		width: 300,
-  		height: 50,
-  		x: 0,
-  		y: 0,
-  		fillColor: "#00bfff",
-  		emptyColor: "#e6f9ff"
-  	}
-  	statusBars.healthBar = {
-      name:"Health",
-      max: 100,
-  		cur: 50,
-  		width: 300,
-  		height: 50,
-  		x: statusBars.hungerBar.x,
-  		y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
-  		fillColor: "#00bfff",
-  		emptyColor: "#e6f9ff"
-  	}
-    //starts animation
-    setInterval(function(){
-      draw();
-    }, 10);
-  }
-  var draw = function() {
-  	//draw bars
-  	fillBar(statusBars.hungerBar);
-  	fillBar(statusBars.healthBar);
-    socket.on('stats', function (slime) {
-      //update values
-      statusBars.healthBar.cur = slime.health;
-      statusBars.hungerBar.cur = slime.hunger;
-      statusBars.hungerBar.max = 1000;
-    });
-  }
-  var fillBar = function(bar) {
-  	barctx.fillStyle = bar.emptyColor;
-  	barctx.fillRect(bar.x, bar.y, bar.width, bar.height);
-  	barctx.fillStyle = bar.fillColor;
-  	barctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
-  	barctx.fillStyle = "#232323";
-  	barctx.font = "25px Indie Flower";
-  	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x + 10, bar.y + 10 + bar.height/2);
-  }
+    // <!-- BARS SCRIPTS -->
+    var statusBars = new Object();
+    var exclamations = [];
+    var barctx;
+    var barcanvas;
+    function initBars() {
+      console.log("initting bars");
+      barcanvas = document.getElementById("bars");
+      barctx = barcanvas.getContext("2d");
+      //sets window size
+      barcanvas.width = 300;
+      barcanvas.height = 120;
+      //creates bars
+      statusBars.hungerBar = {
+        name: "Hunger",
+        max: 100,
+        cur: 50,
+        width: 300,
+        height: 50,
+        x: 0,
+        y: 0,
+        fillColor: "#00bfff",
+        emptyColor: "#e6f9ff"
+      }
+      statusBars.healthBar = {
+        name: "Health",
+        max: 100,
+        cur: 50,
+        width: 300,
+        height: 50,
+        x: statusBars.hungerBar.x,
+        y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
+        fillColor: "#00bfff",
+        emptyColor: "#e6f9ff"
+      }
+      //starts animation
+      setInterval(function () {
+        draw();
+      }, 10);
+    }
+    var draw = function () {
+      //draw bars
+      fillBar(statusBars.hungerBar);
+      fillBar(statusBars.healthBar);
+      socket.on('stats', function (slime) {
+        //update values
+        statusBars.healthBar.cur = slime.health;
+        statusBars.hungerBar.cur = slime.hunger;
+        statusBars.hungerBar.max = 1000;
+      });
+    }
+    var fillBar = function (bar) {
+      barctx.fillStyle = bar.emptyColor;
+      barctx.fillRect(bar.x, bar.y, bar.width, bar.height);
+      barctx.fillStyle = bar.fillColor;
+      barctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
+      barctx.fillStyle = "#232323";
+      barctx.font = "25px Indie Flower";
+      barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x + 10, bar.y + 10 + bar.height / 2);
+    }
   </script>
 
 </body>
