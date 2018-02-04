@@ -11,15 +11,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <title>Project: Slimey</title>
+  <title> Slimey</title>
 </head>
 
 <body onload="initBars()">
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h1 id="title"> Project: Slimey </h1>
-        <canvas id="canvas" width="350" height="350" style="border:1px solid #000000;"></canvas>
+        <h1 id="title"> Slimey </h1>
+        <img src="img/slime.gif" />
         <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       </div>
       <div class="col-md-4">
@@ -38,23 +38,15 @@
     </div>
   </div>
 
-
-
   <!--         -->
 
   <script>
 
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    ctx.font = "12px Arial";
-
     // Connect to our local host port
-    var socket = io.connect('http://localhost:3000');
-
+    var socket = io.connect('http://localhost:2000');
     // when generating slime signal is received
     socket.on('generate slime', function (slime) {
       console.log(slime);
-
       // set slime stats on generation
       $("#slime-name").text("Slimey");
       $("#slime-hunger").text(slime.hunger);
@@ -63,28 +55,7 @@
       $("#slime-level").text(slime.level);
       $("#slime-attack").text(slime.ap);
       $("#slime-defense").text(slime.dp);
-
-      //create current slime
-      var playerSlime = new Image();
-      playerSlime.name = "character";
-      playerSlime.location = {
-        x: 0,
-        y: 0
-      };
-      console.log()
-      playerSlime.width = canvas.width;
-      playerSlime.height = canvas.height;
-      playerSlime.onload = function () {
-        ctx.drawImage(playerSlime, playerSlime.location.x, playerSlime.location.y, playerSlime.width, playerSlime.height);
-      }
-      
-      playerSlime.src = "/img/slime.PNG";
-
-      // send req to server
-      socket.emit('render', { message: 'slime rendered' });
     });
-
-
       // when the sever request for the slime's stats
       socket.on('stats', function (slime) {
         $("#slime-name").text("Slimey");
@@ -95,7 +66,6 @@
         $("#slime-attack").text(slime.ap);
         $("#slime-defense").text(slime.dp);
       });
-
     // send mail functionality
     socket.on('send mail', function (slime) {
       var msg = {
@@ -106,9 +76,7 @@
         Health: ${slime.health}
         Hunger: ${slime.hunger}`
       }
-
       console.log(JSON.stringify(msg));
-
       $.ajax({
         method: "POST",
         url: "/send/mail",
@@ -117,7 +85,6 @@
       });
       console.log("mail sent!");
     });
-
     // feed the slime when feed button is clicked
     $(document).ready(function () {
       $("#feed-pet-btn").on("click", function () {
@@ -127,25 +94,18 @@
         socket.emit('send mail');
       });
     })
-
-
   <!-- BARS SCRIPTS -->
-
   var statusBars = new Object();
   var exclamations = [];
   var barctx;
   var barcanvas;
-
   function initBars(){
     console.log("initting bars");
-
     barcanvas = document.getElementById("bars");
     barctx = barcanvas.getContext("2d");
-
     //sets window size
     barcanvas.width = 300;
     barcanvas.height = 120;
-
     //creates bars
   	statusBars.hungerBar = {
       name:"Hunger",
@@ -169,17 +129,12 @@
   		fillColor: "#FF0000",
   		emptyColor: "#000000"
   	}
-
     //starts animation
     setInterval(function(){
       draw();
     }, 10);
   }
-
   var draw = function() {
-
-
-
   	//draw bars
   	fillBar(statusBars.hungerBar);
   	fillBar(statusBars.healthBar);
@@ -189,9 +144,7 @@
       statusBars.hungerBar.cur = slime.hunger;
       statusBars.hungerBar.max = 1000;
     });
-
   }
-
   var fillBar = function(bar) {
   	barctx.fillStyle = bar.emptyColor;
   	barctx.fillRect(bar.x, bar.y, bar.width, bar.height);
@@ -201,7 +154,6 @@
   	barctx.font = "30px Arial";
   	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x, bar.y + bar.height);
   }
-
   </script>
 
 </body>
