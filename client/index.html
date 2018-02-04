@@ -24,12 +24,17 @@
       <div class="col-md-4">
           <h1 id="stats-text">Stats</h1>
           <h2><span id="slime-name"></span></h2>
-          <h2>health: <span id="slime-health"></span></h2>
+          <h2>level: <span id="slime-level"></span></h2>
+          <h2>health: <span id="slime-current-health"></span> / <span id="slime-health"></span></h2>
           <h2>hunger: <span id="slime-hunger"></span></h2>
+          <h2>attack: <span id="slime-attack"></span></h2>
+          <h2>defense: <span id="slime-defense"></span></h2>
         </div>
       <div class="col-md-4">
         <h1 id="controls-text">Controls</h1>
         <button id="feed-pet-btn" class="btn btn-primary">Feed me!</button>
+        <button id="attack-pet-btn" class="btn btn-primary">Attack other slime!</button>
+        <button id="heal-pet-btn" class="btn btn-primary">Heal me!!</button>
         <button id="send-stats-btn" class="btn btn-success">Send pet stats!</button>
       </div>
     </div>
@@ -50,7 +55,11 @@
       // set slime stats on generation
       $("#slime-name").text("Slimey");
       $("#slime-hunger").text(slime.hunger);
+      $("#slime-current-health").text(slime.current_health);
       $("#slime-health").text(slime.health);
+      $("#slime-level").text(slime.level);
+      $("#slime-attack").text(slime.ap);
+      $("#slime-defense").text(slime.dp);
 
       //create current slime
       var playerSlime = new Image();
@@ -59,7 +68,7 @@
         x: 0,
         y: 0
       };
-      console.log()
+      console.log();
       playerSlime.width = canvas.width;
       playerSlime.height = canvas.height;
       playerSlime.onload = function () {
@@ -75,17 +84,21 @@
     socket.on('stats', function (slime) {
       $("#slime-name").text("Slimey");
       $("#slime-hunger").text(slime.hunger);
+      $("#slime-current-health").text(slime.current_health);
       $("#slime-health").text(slime.health);
+      $("#slime-level").text(slime.level);
+      $("#slime-attack").text(slime.ap);
+      $("#slime-defense").text(slime.dp);
     });
 
     // send mail functionality
     socket.on('send mail', function (slime) {
       var msg = {
-        to: "clarkphan24@gmail.com",
+        to: "realalvinnerds@gmail.com",
         from: "slimey@project-slimey.io",
         subject: "Your Slime Stats!",
-        text: `Your slime Slimey's stats: 
-        Health: ${slime.health} 
+        text: `Your slime Slimey's stats:
+        Health: ${slime.health}
         Hunger: ${slime.hunger}`
       }
 
@@ -104,6 +117,12 @@
     $(document).ready(function () {
       $("#feed-pet-btn").on("click", function () {
         socket.emit('feed');
+      });
+      $("#attack-pet-btn").on("click", function () {
+        socket.emit('attack');
+      });
+      $("#heal-pet-btn").on("click", function () {
+        socket.emit('heal');
       });
       $("#send-stats-btn").on("click", function () {
         socket.emit('send mail');
