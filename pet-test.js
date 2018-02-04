@@ -1,4 +1,4 @@
-module.exports = function (name, age) {
+var Pet = function (name, age) {
     this.name = name;
     this.hunger = 500;
     this.age = age;
@@ -84,3 +84,5 @@ module.exports = function (name, age) {
     }
     return this;
   };
+
+  module.exports = Pet;
