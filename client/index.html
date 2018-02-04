@@ -24,8 +24,9 @@
       <div class="col-md-4">
           <h1 id="stats-text">Stats</h1>
           <h2><span id="slime-name"></span></h2>
-          <h2>health: <span id="slime-health"></span></h2>
-          <h2>hunger: <span id="slime-hunger"></span></h2>
+          <!--<h2>health: <span id="slime-health"></span></h2>
+          <h2>hunger: <span id="slime-hunger"></span></h2>-->
+          <canvas id="bars"></canvas>
         </div>
       <div class="col-md-4">
         <h1 id="controls-text">Controls</h1>
@@ -35,7 +36,7 @@
     </div>
   </div>
 
-  <canvas id="bars" width="350" height="350"></canvas>
+
 
   <!--         -->
 
@@ -131,14 +132,15 @@
     barctx = barcanvas.getContext("2d");
 
     //sets window size
-    barcanvas.width = 1000;
-    barcanvas.height = 500;
+    barcanvas.width = 300;
+    barcanvas.height = 120;
 
     //creates bars
   	statusBars.hungerBar = {
+      name:"Hunger",
   		max: 100,
   		cur: 50,
-  		width: 500,
+  		width: 300,
   		height: 50,
   		x: 0,
   		y: 0,
@@ -146,9 +148,10 @@
   		emptyColor: "#000000"
   	}
   	statusBars.healthBar = {
-  		max: 100,
+      name:"Health",
+      max: 100,
   		cur: 50,
-  		width: 500,
+  		width: 300,
   		height: 50,
   		x: statusBars.hungerBar.x,
   		y: statusBars.hungerBar.y + statusBars.hungerBar.height + 10,
@@ -183,9 +186,9 @@
   	barctx.fillRect(bar.x, bar.y, bar.width, bar.height);
   	barctx.fillStyle = bar.fillColor;
   	barctx.fillRect(bar.x, bar.y, bar.width * (bar.cur / bar.max), bar.height);
-  	barctx.fillStyle = "#000000";
+  	barctx.fillStyle = "#FFFFFF";
   	barctx.font = "30px Arial";
-  	barctx.fillText(Math.round(bar.cur), bar.x, bar.y + bar.height);
+  	barctx.fillText(bar.name + ": " + Math.round(bar.cur), bar.x, bar.y + bar.height - 5);
   }
 
   </script>
