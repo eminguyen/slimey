@@ -45,10 +45,10 @@
         <form id="email-form">
             <div class="form-row">
               <div class="col-6">
-                <input type="email" class="form-control" id="email" placeholder="slimey@project-slimey.io">
+                  <input type="submit" value="Send pet stats!" id="send-stats-btn" class="btn btn-info">
               </div>
               <div class="col-6">
-                <input type="submit" value="Send pet stats!" id="send-stats-btn" class="btn btn-info">
+                <input type="email" class="form-control" id="email" placeholder="slimey@project-slimey.io">
               </div>
             </div>
           </form>
@@ -124,7 +124,7 @@
           return;
         }
         
-        alert( "Email successfuly sent to " + email);
+        alert( "Email successfuly sent to " + email + "!");
         console.log(email);
         socket.emit('send mail');
       });
