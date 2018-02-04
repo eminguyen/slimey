@@ -16,8 +16,8 @@ var bodyParser = require('body-parser');
 // dependency for mongodb
 var mongojs = require("mongojs");
 
-// import player object
-var player = require("./pet.js");
+// import slime object
+var slime = require("./slime.js");
 
 // path to join files
 var path = require('path');
@@ -32,10 +32,6 @@ db.on("error", function(error) {
   console.log("Database Error:", error);
 });
 
-// Insert mock data to test to see if database is set up properly
-db.mailData.insert({"message":"test"});
-db.userData.insert({"password":"test"});
-
 // Initialize Express
 var app = express();
 
@@ -43,7 +39,7 @@ var app = express();
 app.use(express.static("public"));
 
 // Use imported routes
-app.use(routes);
+app.use(routes)
 
 // parse application/json
 app.use(bodyParser.json())
@@ -68,22 +64,35 @@ var PLAYER_LIST = [];
 var PLAYER_ID = 0;
 
 io.on('connection', function (socket) {
+  // increment player id when new connection to socket is established
   PLAYER_ID++;
-  var newPlayer = new player(PLAYER_ID);
+
+  // create new player
+  var newPlayer = new slime(PLAYER_ID);
+  
+  // push player into player list
   PLAYER_LIST.push(newPlayer);
 
   console.log(PLAYER_LIST);
-  // emit news to server on connection
-  socket.emit('news', {message: 'hello'});
 
-  // listen for events
-  socket.on('render', function (data) {
-    console.log(data);
-    
+  // emit news to server on connection
+  socket.emit('generate slime', newPlayer);
+  socket.emit('stats', newPlayer);
+
+  // when the server recieves a request to feed the slime
+  socket.on('feed', function() {
+    newPlayer.feed();
+    socket.emit('stats', newPlayer);
+  });
+
+  // slime gets hungry every 3 second
+  setInterval(function(){
+    newPlayer.starve();
+    socket.emit('stats', newPlayer);
+  },3000);
+
+  // tells the server when the slime is rendered
+  socket.on('render', function(data) {
+    console.log(data)
   });
 });
-
-// // Listen on port 3000
-// app.listen(process.env.PORT || 3000, function() {
-//   console.log("App running on port 3000!");
-// });
