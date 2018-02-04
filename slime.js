@@ -1,9 +1,9 @@
 //Create a slime object
-var Slime = function (name, age) {
+var Slime = function (name) {
     this.name = name;
     this.hunger = 100;
     this.maxHunger = 250;
-    this.age = age;
+    this.age = 1;
     this.level = 1;
     this.health = 20;
     this.current_health = 20;
@@ -76,8 +76,15 @@ var Slime = function (name, age) {
     }
 
     this.heal = function(){
-      this.current_health += (this.level/20);
-      console.log(this.name + " has healed for " + this.level/20 + " hp.");
+      /*
+      if (this.current_health + (this.level/20) < this.health){
+        this.current_health += Math.round((this.level/20)*1000)/1000;
+        console.log(this.name + " has healed for " + this.level/20 + " hp.");
+      }
+      */
+      if (this.current_health + 1 <= this.health){
+        this.current_health ++;
+      }
     }
 
     this.checkDeath = function(){
@@ -92,24 +99,3 @@ var Slime = function (name, age) {
 
 // export to server.js to enable slime creation on the server
 module.exports = Slime;
-
-
-
-/*
-//Create a slime object
-function slime (id) {
-  this.id = id;
-  this.hunger = 0;
-  this.health = 100;
-  this.starve = function() {
-    this.hunger++;
-  };
-  this.feed = function() {
-    this.hunger--;
-  }
-};
-
-// export to server.js to enable slime creation on the server
-module.exports = slime;
-
-*/
