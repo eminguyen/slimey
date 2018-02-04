@@ -6,18 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="assets/style.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <title>Pets</title>
+  <title>Project: Slimey</title>
 </head>
 
 <body>
   <div class="container">
-    <h1> Pet Test </h1>
-    <canvas id="canvas" width="200" height="200" style="border:1px solid #000000;"></canvas>
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <button id="add-pet-btn" class="btn btn-primary">Add a new pet!</button>
+    <div class="row">
+      <div class="col-md-4">
+        <h1> Project: Slimey </h1>
+        <canvas id="canvas" width="350" height="350" style="border:1px solid #000000;"></canvas>
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+      </div>
+      <div class="col-md-4">
+          <h1>Stats</h1>
+          <h2><span id="slime-name"></span></h2>
+          <h2>hunger: <span id="slime-hunger"></span></h2>
+          <h2>health: <span id="slime-health"></span></h2>
+        </div>
+      <div class="col-md-4">
+        <h1>Controls</h1>
+        <button id="feed-pet-btn" class="btn btn-primary">Feed me!</button>
+      </div>
+    </div>
   </div>
   <script>
 
@@ -28,42 +42,45 @@
     // Connect to our local host port
     var socket = io.connect('http://localhost:3000');
 
-    // when news is received
-    socket.on('news', function (data) {
-      console.log(data);
+    // when generating slime signal is received
+    socket.on('generate slime', function (slime) {
+      console.log(slime);
+
+      // set slime stats on generation
+      $("#slime-name").text("Slimey");
+      $("#slime-hunger").text(slime.hunger);
+      $("#slime-health").text(slime.health);
+
       //create current slime
       var playerSlime = new Image();
       playerSlime.name = "character";
       playerSlime.location = {
-        x: canvas.width/2,
-        y: canvas.height/2 
+        x: 0,
+        y: 0
       };
       console.log()
-      playerSlime.width = 50;
-      playerSlime.height = 50;
-      playerSlime.onload = function() {
+      playerSlime.width = canvas.width;
+      playerSlime.height = canvas.height;
+      playerSlime.onload = function () {
         ctx.drawImage(playerSlime, playerSlime.location.x, playerSlime.location.y, playerSlime.width, playerSlime.height);
       }
       playerSlime.src = "/images/slime.png";
-      
+
       // send req to server
       socket.emit('render', { message: 'slime rendered' });
     });
 
-    socket.on('updateHunger', function (data) {
-      ctx.clearRect(0, 0, 100, 100);
-      for (var i = 0; i < data.length; i++)
-        ctx.fillText(Math.round(data[i].hunger), 50, 50);
+    // when the sever request for the slime's stats
+    socket.on('stats', function (slime) {
+      $("#slime-name").text("Slimey");
+      $("#slime-hunger").text(slime.hunger);
+      $("#slime-health").text(slime.health);
     });
 
-    document.onkeydown = function (event) {
-      if (event.keyCode === 65)
-        socket.emit('feed');
-    }
-
+    // feed the slime when feed button is clicked
     $(document).ready(function () {
-      $("#add-pet-btn").on("click", function () {
-        console.log("click");
+      $("#feed-pet-btn").on("click", function () {
+        socket.emit('feed');
       });
     })
   </script>
