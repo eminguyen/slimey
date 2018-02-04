@@ -16,6 +16,12 @@ var bodyParser = require('body-parser');
 // dependency for mongodb
 var mongojs = require("mongojs");
 
+// import player object
+var player = require("./pet.js");
+
+// path to join files
+var path = require('path');
+
 // Database configuration
 var databaseUrl = process.env.MONGODB_URI || "localhost:27017/data";
 var collections = ["mailData", "userData"];
@@ -52,6 +58,29 @@ var io = require('socket.io').listen(server);
 // listening for sockets and routes
 server.listen(process.env.PORT || 3000, function() {
   console.log("App is running on port 3000!");
+});
+
+//Create array of sockets
+var SOCKET_LIST = [];
+var PLAYER_LIST = [];
+
+// Keep track of unique player connections
+var PLAYER_ID = 0;
+
+io.on('connection', function (socket) {
+  PLAYER_ID++;
+  var newPlayer = new player(PLAYER_ID);
+  PLAYER_LIST.push(newPlayer);
+
+  console.log(PLAYER_LIST);
+  // emit news to server on connection
+  socket.emit('news', {message: 'hello'});
+
+  // listen for events
+  socket.on('render', function (data) {
+    console.log(data);
+    
+  });
 });
 
 // // Listen on port 3000

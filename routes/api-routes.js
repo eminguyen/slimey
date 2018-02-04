@@ -20,6 +20,10 @@ router.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '..', '/client/index.html'));
 });
 
+router.get('/render', function(req, res){
+  res.sendFile(path.join(__dirname, '..', '/public/images/slime.png'));
+})
+
 router.get("/send/mail", function (req, res) {
   // set up email message object
   var msg = {
